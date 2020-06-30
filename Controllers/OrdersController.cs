@@ -26,7 +26,7 @@ namespace PizzaParlor.Controllers
             return Ok(order);
         }
         
-        [HttpPost()]
+        [HttpPost("create")]
         public IActionResult AddOrder([FromBody]Order order)
         {
             if (order != null)
