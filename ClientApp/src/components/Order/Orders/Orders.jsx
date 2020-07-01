@@ -6,6 +6,9 @@ export class Orders extends React.Component {
     constructor(props) {
         super(props);
 
+        this.onOrderUpdate = this.onOrderUpdate.bind(this);
+        this.onOrderDelete = this.onOrderDelete.bind(this);
+
         this.state = {
             orders: [],
             loading: true
@@ -23,12 +26,26 @@ export class Orders extends React.Component {
         })
     }
 
+    onOrderUpdate(id) {
+        const {history} = this.props;
+        history.push('/orders/' + id);
+    }
+    
+    onOrderDelete(id) {
+        const {history} = this.props;
+        history.push('/orders/delete/' + id);
+    }
+
     render() {
 
         let content = (
             this.state.loading
             ? <p><em>Loading...</em></p>
-            : <OrdersTable orders={this.state.orders} />
+            : <OrdersTable
+                orders={this.state.orders}
+                onOrderUpdate={this.onOrderUpdate}
+                onOrderDelete={this.onOrderDelete}
+              />
         );
 
         return (

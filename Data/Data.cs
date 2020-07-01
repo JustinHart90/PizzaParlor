@@ -11,7 +11,7 @@ namespace PizzaParlor.Data
         new Order()
         {
             Id=1,
-            Name="Vienna, Austria",
+            Name="Justin",
             SubTotal=1.99,
             Tax=0.00,
             Total=1.99,
@@ -21,7 +21,7 @@ namespace PizzaParlor.Data
         new Order()
         {
             Id=2,
-            Name="Carpinteria, CA, USA",
+            Name="Jim",
             SubTotal=2.99,
             Tax=0.00,
             Total=2.99,
@@ -31,7 +31,7 @@ namespace PizzaParlor.Data
         new Order()
         {
             Id=3,
-            Name="San Francisco, CA, USA",
+            Name="John",
             SubTotal=3.99,
             Tax=0.00,
             Total=3.99,
@@ -41,7 +41,7 @@ namespace PizzaParlor.Data
         new Order()
         {
             Id=4,
-            Name="Tucson, AZ, USA",
+            Name="Jason",
             SubTotal=4.99,
             Tax=0.00,
             Total=4.99,
@@ -51,7 +51,7 @@ namespace PizzaParlor.Data
         new Order()
         {
             Id=5,
-            Name="Albuquerque, NM, USA",
+            Name="Jules",
             SubTotal=5.99,
             Tax=0.00,
             Total=5.99,
@@ -61,7 +61,7 @@ namespace PizzaParlor.Data
         new Order()
         {
             Id=6,
-            Name="Munich, Germany",
+            Name="Joben",
             SubTotal=6.99,
             Tax=0.00,
             Total=6.99,

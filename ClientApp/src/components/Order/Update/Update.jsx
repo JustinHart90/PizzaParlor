@@ -1,60 +1,82 @@
 import React from 'react';
 import axios from 'axios';
+import Notification from '../../Notify/Toast';
+import './Update.css'
 
-export class Create extends React.Component {
+export class Update extends React.Component {
     constructor(props) {
         super(props);
 
         this.onChangeName = this.onChangeName.bind(this);
         this.onChangeTotal = this.onChangeTotal.bind(this);
-        this.onChangeDate = this.onChangeDate.bind(this);
+        this.onUpdateCancel = this.onUpdateCancel.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
 
         this.state = {
             name: '',
             total: 0.00,
-            date: null
+            notify: false
         }
+    }
+
+    componentDidMount() {
+        const {id} = this.props.match.params;
+
+        axios.get("api/orders/" + id).then(order => {
+            const response = order.data;
+
+            this.setState({
+                name: response.name,
+                total: response.total
+            });
+        })
     }
 
     onChangeName(e) {
         this.setState({
             name: e.target.value
-        })
+        });
     }
     
     onChangeTotal(e) {
         this.setState({
             total: e.target.value
-        })
+        });
     }
-    
-    onChangeDate(e) {
-        this.setState({
-            date: e.target.value
-        })
+
+    onUpdateCancel() {
+        const {history} = this.props;
+        history.push('/orders');
     }
 
     onSubmit(e) {
         e.preventDefault();
-        const { history } = this.props;
+        const {history} = this.props;
+        const {id} = this.props.match.params;
 
         let orderObject = {
-            Id: Math.floor(Math.random() * 1000),
-            Name: this.state.name,
-            Total: this.state.total,
-            DateStarted: this.state.date
+            name: this.state.name,
+            total: this.state.total,
+            dateStarted: new Date()
         }
 
-        axios.post("api/orders/create", orderObject).then(result => {
+        this.setState({ notify: true });
+        
+        axios.put("api/orders/" + id, orderObject).then(result => {
             history.push('/orders');
         })
     }
 
     render() {
         return (
+            <>
+            <Notification 
+                show={this.state.notify}
+                header="Success"
+                body="Order updated!"
+            />
             <div className="trip-form" >
-                <h3>Create Order</h3>
+                <h3>Update Order</h3>
                 <form onSubmit={this.onSubmit}>
                     <div className="form-group">
                         <label>Name:  </label>
@@ -74,22 +96,14 @@ export class Create extends React.Component {
                           onChange={this.onChangeTotal}
                         />
                     </div>
-                    <div className="form-group">
-                        <label>Date:  </label>
-                        <input 
-                            type="date" 
-                            className="form-control" 
-                            value={this.state.date}
-                            onChange={this.onChangeDate}
-                        />
-                    </div>
-                    
                     
                     <div className="form-group">
-                        <input type="submit" value="Add Order" className="btn btn-primary"/>
+                        <button onClick={this.onUpdateCancel} className="btn btn-danger">Cancel</button>
+                        <button type="submit" className="btn btn-success">Update</button>
                     </div>
                 </form>
             </div>
+            </>
         )
     }
 }
