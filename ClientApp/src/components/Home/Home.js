@@ -7,7 +7,7 @@ export class Home extends Component {
     return (
       <div>
         <h1>Welcome to PizzaParlor!</h1>
-        <p>Welcome to your new single-page application, built with:</p>
+        <p>With this application, you can:</p>
         <ul>
           <li>Start new order</li>
           <li>Update order</li>
