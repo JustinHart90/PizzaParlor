@@ -1,6 +1,5 @@
 import React from 'react';
 import OrdersTable from './OrdersTable';
-import axios from 'axios';
 import { connect } from 'react-redux';
 import { getAllOrders } from '../../../actions/orderActions';
 
@@ -25,7 +24,7 @@ export class Orders extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.orders.data != this.props.orders.data) {
+        if (prevProps.orders.data !== this.props.orders.data) {
             this.setState({ orders: this.props.orders.data });
         }
     }
