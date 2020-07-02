@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Mvc;
 using PizzaParlor.Data;
 
@@ -12,42 +13,64 @@ namespace PizzaParlor.Controllers
             this._service = service;
         }
 
+
         [HttpGet()]
         public IActionResult GetOrders()
         {
-            var allOrders = _service.GetAllOrders();
-            return Ok(allOrders);
+            try {
+                var allOrders = _service.GetAllOrders();
+                return Ok(allOrders);
+            } catch(Exception ex) {
+                return BadRequest(ex.Message);
+            }
         }
-        
+
+
         [HttpGet("{id}")]
         public IActionResult GetOrderById(int id)
         {
-            var order = _service.GetOrderById(id);
-            return Ok(order);
+            try {
+                var order = _service.GetOrderById(id);
+                return Ok(order);
+            } catch(Exception ex) {
+                return BadRequest(ex.Message);
+            }
         }
-        
+
+
         [HttpPost("create")]
         public IActionResult AddOrder([FromBody]Order order)
         {
-            if (order != null)
-            {
+            try {
                 _service.AddOrder(order);
+                return Ok();
+            } catch(Exception ex) {
+                return BadRequest(ex.Message);
             }
-            return Ok();
         }
-        
+
+
         [HttpPut("{id}")]
         public IActionResult UpdateOrder(int id, [FromBody]Order order)
         {
-            _service.UpdateOrder(id, order);
-            return Ok();
+            try {
+                _service.UpdateOrder(id, order);
+                return Ok();
+            } catch(Exception ex) {
+                return BadRequest(ex.Message);
+            }
         }
+
 
         [HttpDelete("{id}")]
         public IActionResult DeleteOrder(int id)
         {
-            _service.DeleteOrder(id);
-            return Ok();
+            try {
+                _service.DeleteOrder(id);
+                return Ok();
+            } catch(Exception ex) {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

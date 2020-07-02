@@ -1,6 +1,8 @@
 import React from 'react';
 import OrdersTable from './OrdersTable';
 import axios from 'axios';
+import { connect } from 'react-redux';
+import { getAllOrders } from '../../../actions/orderActions';
 
 export class Orders extends React.Component {
     constructor(props) {
@@ -8,22 +10,24 @@ export class Orders extends React.Component {
 
         this.onOrderUpdate = this.onOrderUpdate.bind(this);
         this.onOrderDelete = this.onOrderDelete.bind(this);
+        this.renderOrdersTable = this.renderOrdersTable.bind(this);
 
         this.state = {
             orders: [],
-            loading: true
+            loading: true,
+            failed: false,
+            error: ''
         }
     }
 
     componentDidMount() {
-        this.populateTripsData();
+        this.props.getAllOrders();
     }
 
-    populateTripsData() {
-        axios.get("api/orders").then(result => {
-            const response = result.data;
-            this.setState({ orders: response, loading: false });
-        })
+    componentDidUpdate(prevProps) {
+        if (prevProps.orders.data != this.props.orders.data) {
+            this.setState({ orders: this.props.orders.data });
+        }
     }
 
     onOrderUpdate(id) {
@@ -36,17 +40,21 @@ export class Orders extends React.Component {
         history.push('/orders/delete/' + id);
     }
 
-    render() {
-
-        let content = (
-            this.state.loading
-            ? <p><em>Loading...</em></p>
-            : <OrdersTable
+    renderOrdersTable() {
+        return (
+            <OrdersTable
                 orders={this.state.orders}
                 onOrderUpdate={this.onOrderUpdate}
                 onOrderDelete={this.onOrderDelete}
-              />
+            />
         );
+    }
+
+    render() {
+
+        let content = this.props.orders.loading
+        ? <p><em>Loading...</em></p>
+        : this.state.orders.length && this.renderOrdersTable();
 
         return (
             <div>
@@ -57,3 +65,9 @@ export class Orders extends React.Component {
         )
     }
 }
+
+const mapStateToProps = ({orders}) => ({
+    orders
+});
+
+export default connect(mapStateToProps, {getAllOrders})(Orders);
