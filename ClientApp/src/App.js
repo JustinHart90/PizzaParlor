@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Route } from 'react-router';
 import { Layout } from './components/Layout';
 
-import { Home } from './components/Home';
+import { Home } from './components/Home/Home';
 import Orders from './components/Order/Orders/Orders';
 import { Create } from './components/Order/Create/Create';
 import { Update } from './components/Order/Update/Update';
